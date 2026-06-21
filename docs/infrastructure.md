@@ -26,8 +26,8 @@ sudo systemctl enable mosquitto
 sudo systemctl status mosquitto
 ```
 
-    ⚠️ CRITICAL NETWORK CONFIGURATION NOTE: > By default, modern Mosquitto installations restrict traffic exclusively to the loopback interface (localhost). To allow virtualized container interfaces (10.111.79.X) to hit the host broker gateway, you must open the configuration file:
-    Bash
+> ⚠️ CRITICAL NETWORK CONFIGURATION NOTE:
+> By default, modern Mosquitto installations restrict traffic exclusively to the loopback interface (localhost). To allow virtualized container interfaces (10.111.79.X) to hit the host broker gateway, you must open the configuration file:
 
 ```bash
 sudo nano /etc/mosquitto/mosquitto.conf
@@ -38,18 +38,23 @@ Append these overriding parameters to the very bottom:
     listener 1883 0.0.0.0
     allow_anonymous true
 ```
-    Restart the service to apply changes: sudo systemctl restart mosquitto
+
+Restart the service to apply changes: 
+```bash
+sudo systemctl restart mosquitto
+```
 
 ## 📦 2. Initializing the Isolated LXC/LXD Fabric
 
 We leverage container-level namespace virtualization via LXC/LXD to bypass heavy hypervisor storage and CPU translation penalties.
+
 ### Step 2.1: Establish a Dedicated Storage Pool Boundary
 
 To protect the host root partition from heavy deep learning image layers and cached Python wheels, map an independent, directory-backed storage engine directly to your external media:
 Bash
 
 ```bash
-lxc storage create FU_storage_pool dir source=/mnt/lexar_ext4/PFA_FU_Project/lxd_storage
+lxc storage create FU_storage_pool dir source=~/PFA_FU_Project/lxd_storage
 ```
 
 ### Step 2.2: Isolate the Project Security Namespace
@@ -58,10 +63,10 @@ Create a sandboxed LXD project compartment. This isolates our security laborator
 
 ```bash
 # 1. Create the dedicated laboratory project space
-lxc project create PFA-FU-Project -c features.images=true -c features.profiles=true
+lxc project create FU-Project -c features.images=true -c features.profiles=true
 
 # 2. Switch the active context to the new project
-lxc project switch PFA-FU-Project
+lxc project switch FU-Project
 ```
 
 ## 🛠️ 3. "Golden Image" Pipeline & Cluster Replication
@@ -84,11 +89,16 @@ Execute the following deployment block inside the iot-device-1 shell:
 # Update local software sources and install core tools
 apt update && apt install -y python3-pip python3-dev
 
-# Deploy the complete Machine Learning and communication runtime
+# Deploy the complete Machine Learning runtime via pip3
 pip3 install torch pandas numpy scikit-learn paho-mqtt
 
 # Exit back to the host machine context
 exit
+```
+If the previous pip3 command fails, install native system packages instead:
+```bash
+# Strategy B (Fallback):
+apt install -y python3-pandas python3-numpy python3-torch python3-sklearn python3-paho-mqtt -y
 ```
 
 ### Step 3.2: Freeze the Blueprint and Batch-Clone the Edge Nodes
@@ -103,9 +113,28 @@ lxc stop iot-device-1
 lxc publish iot-device-1 --alias fu-base-image
 
 # Execute automated batch deployment loop for the rest of the cluster
-for i in {2..4}; do
-  lxc launch fu-base-image iot-device-$i
+for i in {1..4}; do
+  if [ $i -ne 1 ]; then
+    lxc launch fu-base-image iot-device-$i
+  fi
   lxc config device add iot-device-$i eth0 nic network=lxdbr0 name=eth0 ipv4.address=10.111.79.1$i
   lxc config set iot-device-$i security.nesting true
 done
 ```
+
+## 👥 Verification Check
+
+To verify that your entire 4-node edge cluster is up, nested correctly, and actively holding their dedicated laboratory IP addresses, execute:
+
+```bash
+lxc list -c n,s,4
+```
+
+> 📌 **Success Verification:**
+> Before proceeding to the next stage, ensure that the 10.111.79.X static IP addresses appear correctly under the IPV4 column for all four container instances. If a node displays no IP address, re-run the interface refresh loop above.
+
+## ➡️ Next Step
+
+Now that your containerized environment is fully provisioned, isolated, and bridged, move on to configuring the shared storage and executing the simulation matrix:
+
+## **📑 Proceed to Runtime Orchestration & Security Auditing (docs/runtime.md)**
