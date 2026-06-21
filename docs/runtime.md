@@ -1,3 +1,12 @@
+# 🏃‍♂️ Runtime Orchestration & Security Auditing Pipeline
+
+This document guides you through connecting your zero-copy storage resources, executing parallel asynchronous container scripts, and running the defensive evaluation suite.
+
+> 🛑 **PREREQUISITE CHECKPOINT:**
+> Before proceeding with these execution steps, ensure you have completely configured your host and container cluster by following the **[Infrastructure Setup Guide (infrastructure.md)](docs/infrastructure.md)**. Do not carry on if your containers do not yet show a valid `10.111.79.X` IP address.
+
+---
+
 ## 💾 3: Zero-Copy Shared Workspace Configuration
 
 To prevent duplicating large network traffic CSV datasets (UNSW-NB15 / ML-EdgeIIoT) across every individual instance, execute a physical disk segment bind-mount. The data consumes exactly 1x storage blocks while remaining globally accessible.
