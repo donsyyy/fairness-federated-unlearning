@@ -30,16 +30,3 @@ To ensure reproducibility, the system deployment blueprint has been broken down 
 1. **[Infrastructure & Cluster Provisioning](docs/infrastructure.md)** *Step-by-step guides for host setup, LXD project boundary mapping, storage pool isolation, and automated Golden Image batch-cloning loop.*
 2. **[Runtime Orchestration & Security Auditing](docs/runtime.md)** *(Coming Soon / Create This)* *Zero-copy shared workspace disk-mapping, concurrent background container process initialization, unlearning gates, and running the `mia_audit.py` script.*
 3. **[Network Troubleshooting & Diagnostics Matrix](docs/troubleshooting.md)** *(Coming Soon / Create This)* *Resolving MQTT synchronization deadlocks, handling PyTorch multi-key state dictionary dictionary errors, and host interface binding overrides.*
-
----
-
-## 🚀 Quick Execution Overview
-
-Once your environmental infrastructure is completely provisioned via the deep documentation sheets, the entire system is launched using two simple terminal entry points:
-
-### 1. Initialize the Central Global Aggregator (Host)
-
-```bash
-cd /mnt/lexar_ext4/PFA_FU_Project/
-python3 serverSDG.py
-```
