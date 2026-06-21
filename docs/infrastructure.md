@@ -137,4 +137,4 @@ lxc list -c n,s,4
 
 Now that your containerized environment is fully provisioned, isolated, and bridged, move on to configuring the shared storage and executing the simulation matrix:
 
-## **📑 Proceed to Runtime Orchestration & Security Auditing (docs/runtime.md)**
+## 📑 **[Proceed to Runtime Orchestration & Security Auditing (docs/runtime.md)](docs/runtime.md)**
