@@ -55,4 +55,4 @@ python3 mia_audit.py
 
 > Success Metric: A structural entropy/loss increase exceeding 15% on the unlearned weights file confirms that Client 0's data was successfully forgotten by q-FedAvg under the hood, regardless of standard classification accuracy metrics.
 
-## 📑 **[Having trouble with runtime errors or network? Check out the troubleshooting file (docs/troubleshooting.md)](docs/troubleshooting.md)**
+## **[Having trouble with runtime errors or network? Check out the troubleshooting file (docs/troubleshooting.md)](troubleshooting.md)**

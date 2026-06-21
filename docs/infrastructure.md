@@ -133,6 +133,8 @@ lxc list -c n,s,4
 > 📌 **Success Verification:**
 > Before proceeding to the next stage, ensure that the 10.111.79.X static IP addresses appear correctly under the IPV4 column for all four container instances. If a node displays no IP address, re-run the interface refresh loop above.
 
+## **[Having trouble with network? Check out the troubleshooting file (docs/troubleshooting.md)](troubleshooting.md)**
+
 ## ➡️ Next Step
 
 Now that your containerized environment is fully provisioned, isolated, and bridged, move on to configuring the shared storage and executing the simulation matrix:
