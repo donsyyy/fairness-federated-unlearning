@@ -29,6 +29,8 @@ Unlike classical implementations running on heavy, volatile virtual machines (VM
 
 To ensure total reproducibility, the system deployment blueprint has been broken down into granular, actionable engineering sheets. Navigate through them sequentially to stand up and evaluate the environment:
 
+0. 🧩 **[System Prerequisites & Hypervisor Installation (docs/prerequisites.md)](docs/prerequisites.md)** *Complete step-by-step installation guides for the snap-based LXC/LXD virtualization daemon, post-install environment configurations, core system reboots, and engine validation testing.*
+
 1. 📦 **[Infrastructure & Cluster Provisioning (docs/infrastructure.md)](docs/infrastructure.md)** *Step-by-step guides for host packet dependencies, LXD project workspace isolation, directory-backed storage pool mapping, automated "Golden Image" batch-cloning, and live interface cache refreshes.*
 
 2. 🏃‍♂️ **[Runtime Orchestration & Security Auditing (docs/runtime.md)](docs/runtime.md)** *Zero-copy data volume bind-mounting, concurrent background client container initialization loops, model metadata tracking, and evaluating data erasure using the Membership Inference Attack (`mia_audit.py`) suite.*
