@@ -3,7 +3,9 @@
 This sheet walks you through installing the core LXC/LXD containerization hypervisor engine onto your Linux host system, adding user group permissions, and running basic subsystem initialization.
 
 > 🐧 **SYSTEM COMPATIBILITY NOTICE:**
-> This installation pipeline is optimized and verified for **Debian-based distributions** (including **Ubuntu 22.04/24.04 LTS** and **Kali Linux**). 
+> 
+> This installation pipeline is optimized and verified for **Debian-based distributions** (including **Ubuntu 22.04/24.04 LTS** and **Kali Linux**).
+> 
 > If you are utilizing an RPM-based system (Fedora/RHEL) or an Arch-based distribution, your native package manager syntax (`dnf` or `pacman`) and snap path symlinks will differ. It is recommended to use the verified Debian/Kali environment to ensure script repeatability.
 
 ---
@@ -39,8 +41,10 @@ sudo usermod -aG lxd $USER
 ### Step 2.2: Apply Group Membership Changes
 
 > 🛑 CRITICAL SYSTEM REBOOT CHECKPOINT:
+> 
 > For the kernel to completely flush your user session permissions and actively bind your shell to the lxd execution group boundary, you must completely restart your host operating system or manually refresh your login context using:
 >> ```newgrp lxd```
+>
 > If commands throw permissions errors after using newgrp, save your work and reboot your machine.
 
 ## 🚀 3. Engine Initialization & Subsystem Validation Testing
@@ -63,15 +67,17 @@ Test that the client binary successfully queries the back-end system socket wrap
 lxc list
 ```
 
-> 📌 Binary Path Resolution Warning:
+> 📌 **Binary Path Resolution Warning:**
+> 
 > If your system terminal outputs bash: lxc: command not found but the snap install succeeded, your system shell is missing the global snap path mapping inside its .bashrc or .zshrc configuration profiles.
+> 
+> To bypass this without modifying system scripts, swap out the raw lxc command keyword and explicitly reference its direct path binary signature: **`/snap/bin/lxc`** for all future commands across the sheets.
+>> Example: `/snap/bin/lxc list` instead of `lxc list`
 
-> To bypass this without modifying system scripts, swap out the raw lxc command keyword and explicitly reference its direct path binary signature: **/snap/bin/lxc** for all future commands across the sheets.
+---
 
->> Example: ```/snap/bin/lxc list``` instead of ```lxc list```
-
-## ➡️ Next Step
+### ➡️ Next Step
 
 Now that the core hypervisor engine is successfully processing terminal commands on your host, proceed to mapping out your isolated project directories:
 
-## 📑 **[Proceed to Cluster Infrastructure Setup (docs/infrastructure.md)](infrastructure.md)**
+### 📑 [Proceed to Cluster Infrastructure Setup (docs/infrastructure.md)](infrastructure.md)

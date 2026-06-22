@@ -2,6 +2,12 @@
 
 This document outlines the step-by-step environment setup required to build the virtualized IoT edge emulation lab using lightweight Linux containers (**LXC/LXD**).
 
+> 🛑 **PREREQUISITE CHECKPOINT:**
+> 
+> Before proceeding with these network and cluster provisioning steps, ensure you have completely installed the core virtualization daemons and initialized the system by following the **[System Prerequisites & Hypervisor Installation Guide (prerequisites.md)](prerequisites.md)**. Do not carry on if the raw `lxc list` or backup path `/snap/bin/lxc list` command throws initialization or socket connection errors on your host shell.
+
+---
+
 ## 📋 1. Prerequisites & Host Node Dependencies
 
 The system execution relies on an asynchronous Pub/Sub message matrix. The central host gateway must run a dedicated message broker and possess essential Python environments.
@@ -26,7 +32,8 @@ sudo systemctl enable mosquitto
 sudo systemctl status mosquitto
 ```
 
-> ⚠️ CRITICAL NETWORK CONFIGURATION NOTE:
+> ⚠️ **CRITICAL NETWORK CONFIGURATION NOTE:**
+> 
 > By default, modern Mosquitto installations restrict traffic exclusively to the loopback interface (localhost). To allow virtualized container interfaces (10.111.79.X) to hit the host broker gateway, you must open the configuration file:
 
 ```bash
@@ -39,7 +46,8 @@ Append these overriding parameters to the very bottom:
     allow_anonymous true
 ```
 
-Restart the service to apply changes: 
+Restart the service to apply changes:
+
 ```bash
 sudo systemctl restart mosquitto
 ```
@@ -96,6 +104,7 @@ pip3 install torch pandas numpy scikit-learn paho-mqtt
 exit
 ```
 If the previous pip3 command fails, install native system packages instead:
+
 ```bash
 # Strategy B (Fallback):
 apt install -y python3-pandas python3-numpy python3-torch python3-sklearn python3-paho-mqtt -y
@@ -122,7 +131,7 @@ for i in {1..4}; do
 done
 ```
 
-## 👥 Verification Check
+## 👥 4. Live Interface Refresh & Cluster Verification Check
 
 To verify that your entire 4-node edge cluster is up, nested correctly, and actively holding their dedicated laboratory IP addresses, execute:
 
@@ -131,12 +140,17 @@ lxc list -c n,s,4
 ```
 
 > 📌 **Success Verification:**
-> Before proceeding to the next stage, ensure that the 10.111.79.X static IP addresses appear correctly under the IPV4 column for all four container instances. If a node displays no IP address, re-run the interface refresh loop above.
+> 
+> Before proceeding to the next stage, ensure that the `10.111.79.X` static IP addresses appear correctly under the `IPV4` column for all four container instances. If a node displays no IP address, re-run the interface refresh loop above.
 
-## **[Having trouble with network? Check out the troubleshooting file (docs/troubleshooting.md)](troubleshooting.md)**
+> 👉 **Stuck on a Network Issue?**
+> 
+> Check out the step-by-step resolution steps in the [**Network Troubleshooting & Diagnostics Matrix**](troubleshooting.md).
 
-## ➡️ Next Step
+---
+
+### ➡️ Next Step
 
 Now that your containerized environment is fully provisioned, isolated, and bridged, move on to configuring the shared storage and executing the simulation matrix:
 
-## 📑 **[Proceed to Runtime Orchestration & Security Auditing (docs/runtime.md)](runtime.md)**
+### 📑 [Proceed to Runtime Orchestration & Security Auditing (runtime.md)](runtime.md)
